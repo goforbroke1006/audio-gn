@@ -11,6 +11,6 @@ elseif (UNIX)
     set(CMAKE_INSTALL_PREFIX /usr/local/bin/)
 endif ()
 
-add_executable(audio-gn main.cpp wav.h)
+add_executable(audio-gn main.cpp wav.h music.h)
 
 install(TARGETS audio-gn DESTINATION ${CMAKE_INSTALL_PREFIX})
