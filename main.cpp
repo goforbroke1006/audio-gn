@@ -14,7 +14,7 @@ int main() {
     unsigned short channelCount = 2;
     double hz = 44100;
 
-    unsigned int subchunk2Size;
+    unsigned int subchunk2Size = 0;
     const WAVHEADER &wavheader = createWavHeader(hz, 20, channelCount, subchunk2Size);
 
     file.write(reinterpret_cast<const char *>(&wavheader), sizeof(wavheader));
@@ -32,6 +32,16 @@ int main() {
         int p2 = (max_amplitude - amplitude) * value;
         file.write(reinterpret_cast<const char *>(&p2), sizeof(p2));
     }
+    
+    // TODO: try to replace with new algorithm
+    
+    /*for (int n = 0; n < subchunk2Size; n++)
+    {
+        double amplitude = (double) n / subchunk2Size * max_amplitude;
+        double value     = sin((two_pi * n * frequency) / hz );
+        file.write( f, (int)(                 amplitude  * value), 2 );
+        file.write( f, (int)((max_amplitude - amplitude) * value), 2 );
+    }*/
 
     file.close();
 
