@@ -5,7 +5,13 @@
 #ifndef AUDIO_GN_WAV_H
 #define AUDIO_GN_WAV_H
 
+static const char *const RIFF = "RIFF";
+static const char *const WAVE = "WAVE";
+static const char *const FMT_ = "fmt ";
+static const char *const DATA = "data";
+
 #include <stdexcept>
+#include <cstring>
 
 struct WAVHEADER {
     char chunkId[4]; // text "RIFF"
@@ -28,31 +34,18 @@ WAVHEADER createWavHeader(const double &sampleRate,
                           const unsigned short &numChannels,
                           unsigned int &subchunk2Size) {
 
-    unsigned int numSamples = duration * sampleRate;
-    
+    auto numSamples = (unsigned int) (duration * sampleRate);
+
     unsigned int subchunk1Size = 16;
     unsigned short bitsPerSample = 8;
     subchunk2Size = numSamples * numChannels * bitsPerSample / 8;
-    
+
     WAVHEADER wavheader = WAVHEADER{};
 
-    wavheader.chunkId[0] = 'R';
-    wavheader.chunkId[1] = 'I';
-    wavheader.chunkId[2] = 'F';
-    wavheader.chunkId[3] = 'F';
-
+    strncpy(wavheader.chunkId, RIFF, sizeof(wavheader.chunkId));
     wavheader.chunkSize = 4 + (8 + subchunk1Size) + (8 + subchunk2Size);
-
-    wavheader.format[0] = 'W';
-    wavheader.format[1] = 'A';
-    wavheader.format[2] = 'V';
-    wavheader.format[3] = 'E';
-
-    wavheader.subchunk1Id[0] = 'f';
-    wavheader.subchunk1Id[1] = 'm';
-    wavheader.subchunk1Id[2] = 't';
-    wavheader.subchunk1Id[3] = ' ';
-
+    strncpy(wavheader.format, WAVE, sizeof(wavheader.format));
+    strncpy(wavheader.subchunk1Id, FMT_, sizeof(wavheader.subchunk1Id));
     wavheader.subchunk1Size = subchunk1Size;
     wavheader.audioFormat = 1;
     wavheader.numChannels = numChannels;
@@ -60,13 +53,7 @@ WAVHEADER createWavHeader(const double &sampleRate,
     wavheader.byteRate = sampleRate * numChannels * bitsPerSample / 8;
     wavheader.blockAlign = numChannels * bitsPerSample / 8;
     wavheader.bitsPerSample = bitsPerSample;
-
-    wavheader.subchunk2Id[0] = 'd';
-    wavheader.subchunk2Id[1] = 'a';
-    wavheader.subchunk2Id[2] = 't';
-    wavheader.subchunk2Id[3] = 'a';
-
-    
+    strncpy(wavheader.subchunk2Id, DATA, sizeof(wavheader.subchunk2Id));
     wavheader.subchunk2Size = subchunk2Size;
 
     if (44 != sizeof(wavheader)) {
