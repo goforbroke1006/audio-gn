@@ -32,12 +32,17 @@ struct WAVHEADER {
 WAVHEADER createWavHeader(const double &sampleRate,
                           const unsigned long &duration,
                           const unsigned short &numChannels,
+                          const unsigned short &bitsPerSample,
                           unsigned int &subchunk2Size) {
+
+    if (bitsPerSample % 8 != 0) {
+        throw std::logic_error("Unexpected bitsPerSample value - is not multiple to 8!");
+    }
 
     auto numSamples = (unsigned int) (duration * sampleRate);
 
     unsigned int subchunk1Size = 16;
-    unsigned short bitsPerSample = 8;
+
     subchunk2Size = numSamples * numChannels * bitsPerSample / 8;
 
     WAVHEADER wavheader = WAVHEADER{};

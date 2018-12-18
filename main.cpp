@@ -12,11 +12,12 @@ int main() {
 
     ofstream file("result.wav", ios::binary);
 
-    unsigned short channelCount = 2;
     double hz = 44100;
-
+    unsigned long duration = 20; // 20 seconds
+    unsigned short channelCount = 2; // stereo
+    unsigned short bitsPerSample = 8;
     unsigned int subchunk2Size = 0;
-    const WAVHEADER &wavheader = createWavHeader(hz, 20, channelCount, subchunk2Size);
+    const WAVHEADER &wavheader = createWavHeader(hz, duration, channelCount, bitsPerSample, subchunk2Size);
 
     file.write(reinterpret_cast<const char *>(&wavheader), sizeof(wavheader));
 
@@ -27,22 +28,14 @@ int main() {
     double frequency = Piano::KEY_42;
 
     for (int n = 0; n < subchunk2Size; ++n) {
-//        int rnd1 = n % 24;
-//        int rnd2 = n % 9;
-
         double amplitude = (double) n / subchunk2Size * max_amplitude;
         double value = sin((two_pi * n * frequency) / hz);
 
-        int i1 = (int) (amplitude * value /*+ rnd1 + rnd2*/);
+        int i1 = (int) (max_amplitude - amplitude * value);
         const char *s1 = reinterpret_cast<const char *>(&i1);
         s1 = s1 != nullptr ? s1 : "";
 
-        int i2 = (int) ((max_amplitude /*- rnd1 - rnd2*/ - amplitude) * value);
-        const char *s2 = reinterpret_cast<const char *>(&i2);
-        s2 = s2 != nullptr ? s2 : "";
-
         file.write(s1, sizeof(int));
-        file.write(s2, sizeof(int));
     }
 
     file.close();
