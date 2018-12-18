@@ -27,10 +27,14 @@ WAVHEADER createWavHeader(const double &sampleRate,
                           const unsigned long &duration,
                           const unsigned short &numChannels,
                           unsigned int &subchunk2Size) {
-    WAVHEADER wavheader = WAVHEADER{};
 
+    unsigned int numSamples = duration * sampleRate;
+    
     unsigned int subchunk1Size = 16;
     unsigned short bitsPerSample = 8;
+    subchunk2Size = numSamples * numChannels * bitsPerSample / 8;
+    
+    WAVHEADER wavheader = WAVHEADER{};
 
     wavheader.chunkId[0] = 'R';
     wavheader.chunkId[1] = 'I';
@@ -62,7 +66,7 @@ WAVHEADER createWavHeader(const double &sampleRate,
     wavheader.subchunk2Id[2] = 't';
     wavheader.subchunk2Id[3] = 'a';
 
-    subchunk2Size = duration * sampleRate;
+    
     wavheader.subchunk2Size = subchunk2Size;
 
     if (44 != sizeof(wavheader)) {
