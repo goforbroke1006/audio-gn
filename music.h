@@ -69,17 +69,25 @@ public:
     static const double KEY_15; // B͵
 
     // great octave
-    static const double KEY_16;
-    static const double KEY_17;
-    static const double KEY_18;
-    static const double KEY_19;
-    static const double KEY_20;
-    static const double KEY_21;
-    static const double KEY_22;
-    static const double KEY_23;
-    static const double KEY_24;
-    static const double KEY_25;
-    static const double KEY_26;
+    static const double KEY_16; // C great octave
+    static const double KEY_17; // C♯/D♭
+    static const double KEY_18; // D
+    static const double KEY_19; // D♯/E♭
+    static const double KEY_20; // E
+    static const double KEY_21; // F
+    static const double KEY_22; // F♯/G♭
+    static const double KEY_23; // G
+    static const double KEY_24; // G♯/A♭
+    static const double KEY_25; // A
+    static const double KEY_26; // A♯/B♭
+    static const double KEY_27; // B
+
+
+    static const double KEY_40; //
+    static const double KEY_41; //
+    static const double KEY_42; //
+
+    static const double KEY_49; //
 
 };
 
@@ -105,5 +113,20 @@ const double Piano::KEY_16 = 65.40639;
 const double Piano::KEY_17 = 69.29566;
 const double Piano::KEY_18 = 73.41619;
 const double Piano::KEY_19 = 77.78175;
+const double Piano::KEY_20 = 82.40689;
+const double Piano::KEY_21 = 87.30706;
+const double Piano::KEY_22 = 92.49861;
+const double Piano::KEY_23 = 97.99886;
+const double Piano::KEY_24 = 103.8262;
+const double Piano::KEY_25 = 110.0000;
+const double Piano::KEY_26 = 116.5409;
+const double Piano::KEY_27 = 123.4708;
+
+
+const double Piano::KEY_40 = 261.6256;
+const double Piano::KEY_41 = 277.1826;
+const double Piano::KEY_42 = 293.6648;
+
+const double Piano::KEY_49 = 440.0000;
 
 #endif //AUDIO_GN_MUSIC_H

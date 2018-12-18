@@ -23,33 +23,24 @@ int main() {
     constexpr double two_pi = 6.283185307179586476925286766559;
     constexpr double max_amplitude = 32760 / 2;
 //    double frequency = 261.626; // musical note "C"
-    double frequency = Piano::KEY_17;
+//    double frequency = 293.6648; // musical note "D"
+    double frequency = Piano::KEY_42;
 
     for (int n = 0; n < subchunk2Size; n++) {
         double amplitude = (double) n / subchunk2Size * max_amplitude;
         double value = sin((two_pi * n * frequency) / hz);
 
-//        int p1 = (int) (amplitude * value);
-//        file.write(reinterpret_cast<const char *>(&p1), sizeof(p1));
-//        int p2 = (max_amplitude - amplitude) * value;
-//        file.write(reinterpret_cast<const char *>(&p2), sizeof(p2));
+        int i1 = (int) (amplitude * value);
+        const char *s1 = reinterpret_cast<const char *>(&i1);
+        s1 = s1 != nullptr ? s1 : "";
 
-        for (int c = 0; c < channelCount; ++c) {
-//            int p1 = (int) (amplitude * value);
-            int p1 = (max_amplitude - amplitude) * value;
-            file.write(reinterpret_cast<const char *>(&p1), sizeof(p1));
-        }
+        int i2 = (int) ((max_amplitude - amplitude) * value);
+        const char *s2 = reinterpret_cast<const char *>(&i2);
+        s2 = s2 != nullptr ? s2 : "";
+
+        file.write(s1, sizeof(int));
+        file.write(s2, sizeof(int));
     }
-    
-    // TODO: try to replace with new algorithm
-    
-    /*for (int n = 0; n < subchunk2Size; n++)
-    {
-        double amplitude = (double) n / subchunk2Size * max_amplitude;
-        double value     = sin((two_pi * n * frequency) / hz );
-        file.write( f, (int)(                 amplitude  * value), 2 );
-        file.write( f, (int)((max_amplitude - amplitude) * value), 2 );
-    }*/
 
     file.close();
 
