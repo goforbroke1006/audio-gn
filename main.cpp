@@ -26,15 +26,18 @@ int main() {
 //    double frequency = 293.6648; // musical note "D"
     double frequency = Piano::KEY_42;
 
-    for (int n = 0; n < subchunk2Size; n++) {
+    for (int n = 0; n < subchunk2Size; ++n) {
+//        int rnd1 = n % 24;
+//        int rnd2 = n % 9;
+
         double amplitude = (double) n / subchunk2Size * max_amplitude;
         double value = sin((two_pi * n * frequency) / hz);
 
-        int i1 = (int) (amplitude * value);
+        int i1 = (int) (amplitude * value /*+ rnd1 + rnd2*/);
         const char *s1 = reinterpret_cast<const char *>(&i1);
         s1 = s1 != nullptr ? s1 : "";
 
-        int i2 = (int) ((max_amplitude - amplitude) * value);
+        int i2 = (int) ((max_amplitude /*- rnd1 - rnd2*/ - amplitude) * value);
         const char *s2 = reinterpret_cast<const char *>(&i2);
         s2 = s2 != nullptr ? s2 : "";
 
