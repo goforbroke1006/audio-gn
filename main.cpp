@@ -21,7 +21,7 @@ int main() {
     file.write(reinterpret_cast<const char *>(&wavheader), sizeof(wavheader));
 
     constexpr double two_pi = 6.283185307179586476925286766559;
-    constexpr double max_amplitude = 32760 / 2;
+    constexpr double max_amplitude = 32760.0 / 2;
 //    double frequency = 261.626; // musical note "C"
 //    double frequency = 293.6648; // musical note "D"
     double frequency = Piano::KEY_42;
